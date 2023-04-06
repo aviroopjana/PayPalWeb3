@@ -37,7 +37,6 @@ contract PayPal {
     mapping(address => request[]) requests;
     mapping(address => sendReceive[]) history;
 
-
     //Add a name to the walletAddress
 
     function addName(string memory _name) public {
@@ -49,7 +48,6 @@ contract PayPal {
     //Create a Request
 
     function createRequest(address user, uint256 _amount, string memory _message) public {
-
         request memory newRequest;
         newRequest.requester = msg.sender;
         newRequest.amount = _amount;
@@ -58,14 +56,13 @@ contract PayPal {
         if(names[msg.sender].hasName) {
             newRequest.name = names[msg.sender].name;
         }
+        
         requests[user].push(newRequest);
-
     }
 
     //Pay a Request
 
-    function payRequest(uint256 _request) public payable {
-    
+    function payRequest(uint256 _request) public payable {    
         require(_request < requests[msg.sender].length, "No Such Request");
         request[] storage myRequests = requests[msg.sender];
         request storage payableRequest = myRequests[_request];
@@ -82,8 +79,7 @@ contract PayPal {
 
     }
 
-    function addHistory(address sender, address receiver, uint256 _amount, string memory _message) private {
-        
+    function addHistory(address sender, address receiver, uint256 _amount, string memory _message) private {   
         sendReceive memory newSend;
         newSend.action = "Send";
         newSend.amount = _amount;
@@ -108,8 +104,6 @@ contract PayPal {
 
         history[receiver].push(newReceive);
     }
-
-
 
     //Get all Requests sent to the User
 
